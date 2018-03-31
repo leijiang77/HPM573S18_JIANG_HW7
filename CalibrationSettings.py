@@ -1,6 +1,8 @@
 import scipy.stats as stat
 
 
+
+
 SIM_POP_SIZE = 1000       # population size of simulated cohorts
 TIME_STEPS = 1000        # length of simulation
 ALPHA = 0.05             # significance level for calculating confidence intervals

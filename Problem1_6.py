@@ -1,7 +1,6 @@
 import CalibrationClasses as Cls
 import calibrationclasses2 as cls2
 import CalibrationSettings as CalibSets
-
 import scr.FigureSupport as Fig
 from enum import Enum
 import numpy as np
