@@ -1,6 +1,6 @@
 from enum import Enum
 import numpy as np
-import scr.SamplePathClass as PathCls
+import scr.SamplePathClasses as PathCls
 import scr.StatisticalClasses as Stat
 
 
@@ -59,7 +59,7 @@ class Cohort:
         self._initialPopSize = pop_size # initial population size
         self._patients = []      # list of patients
         self._survivalTimes = []    # list to store survival time of each patient
-
+        self._survFiveYears = 0
         # populate the cohort
         for i in range(pop_size):
             # create a new patient (use id * pop_size + n as patient id)
@@ -81,7 +81,8 @@ class Cohort:
             value = patient.get_survival_time()
             if not (value is None):
                 self._survivalTimes.append(value)
-
+            if value >5 :
+                self._survFiveYears += 1
         # return cohort outcomes for this simulated class
         return CohortOutcomes(self)
 
@@ -93,6 +94,9 @@ class Cohort:
         """ :returns the initial population size of this cohort"""
         return self._initialPopSize
 
+    def get_perct_5years(self):
+        probBeyondFiveYears=self._survFiveYears/self._initialPopSize
+        return probBeyondFiveYears
 
 class CohortOutcomes:
     def __init__(self, simulated_cohort):
@@ -147,7 +151,8 @@ class MultiCohort:
         self._survivalTimes = []      # two dimensional list of patient survival time from each simulated cohort
         self._meanSurvivalTimes = []   # list of mean patient survival time for each simulated cohort
         self._sumStat_meanSurvivalTime = None
-
+        self._fiveYearSurvivalProb = []
+        self._sumStat_fiveYearSurvivalProb = None
     def simulate(self, n_time_steps):
         """ simulates all cohorts """
 
@@ -160,10 +165,18 @@ class MultiCohort:
             self._survivalTimes.append(cohort.get_survival_times())
             # store average survival time for this cohort
             self._meanSurvivalTimes.append(output.get_ave_survival_time())
-
+            self._fiveYearSurvivalProb.append(cohort.get_perct_5years())
         # after simulating all cohorts
         # summary statistics of mean survival time
         self._sumStat_meanSurvivalTime = Stat.SummaryStat('Mean survival time', self._meanSurvivalTimes)
+
+        self._sumStat_fiveYearSurvivalProb = Stat.SummaryStat('Mean five year survival', self._fiveYearSurvivalProb)
+
+    def get_five_year_survival(self, cohort_index):
+        return self._fiveYearSurvivalProb[cohort_index]
+
+    def get_cohort_mean_five_year_surv(self,cohort_index):
+        return self._sumStat_meanS
 
     def get_cohort_mean_survival(self, cohort_index):
         """ returns the mean survival time of an specified cohort

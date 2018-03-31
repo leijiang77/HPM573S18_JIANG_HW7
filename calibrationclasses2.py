@@ -50,7 +50,7 @@ class Calibration:
 
             # construct a binormial distribution
             # fiveYearSurv = calculated from the simulated cohort
-            weight = stat.binom.pmf(CalibSets.OBS_FIVE, CalibSets.OBS_N, fiveYearSurv)
+            weight = stat.binom.pmf(800, 1146, fiveYearSurv)
             self._weights.append(weight)
 
         # normalize the likelihood weights
@@ -69,7 +69,7 @@ class Calibration:
                                   self._mortalitySamples[i]])
 
         # write the calibration result into a csv file
-        InOutSupport.write_csv('CalibrateResults.csv', self._csvRows)
+        InOutSupport.write_csv('CalibrateResults2.csv', self._csvRows)
 
 
     def get_mortality_resamples(self):
