@@ -53,7 +53,7 @@ calibration2.sample_posterior()
 print('Estimate of mortality probability ({:.{prec}%} credible interval):'.format(1-CalibSets.ALPHA, prec=0),
       calibration2.get_mortality_estimate_credible_interval(CalibSets.ALPHA, 4))
 
-calibrated_model2 = cls2.CalibratedModel('CalibrationResults2.csv')
+calibrated_model2 = cls2.CalibratedModel('CalibrateResults2.csv')
 # simulate the calibrated model
 calibrated_model2.simulate(CalibSets.SIM_POP_SIZE, CalibSets.TIME_STEPS)
 
